@@ -88,10 +88,11 @@ public class Forecast {
 
 				double[] probability = ws.summary();
 
-				Text out = new Text(Arrays.toString(probability).replaceAll("\\[|\\]", "").replace(", ", "\t"));
-				context.write(new LongWritable(dt.getDeviceId()), out);
+				Text out = new Text(dt.getDeviceId() + ","
+						+ Arrays.toString(probability).replaceAll("\\[|\\]", "").replace(", ", ","));
+				context.write(null, out);
 			} catch (Exception e) {
-				context.getCounter("error", e.getMessage()).increment(1);
+				log.error("error", e);
 			}
 		}
 
